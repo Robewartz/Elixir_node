@@ -1,0 +1,7 @@
+sudo rm ~/.docker/config.json
+docker login
+cd elixir
+docker ps -a | grep elixirprotocol | awk '{print $1}' | xargs docker stop
+docker ps -a | grep elixirprotocol | awk '{print $1}' | xargs docker rm
+docker pull elixirprotocol/validator:v3 --platform linux/amd64
+sudo docker run --name elixir-mainnet --env-file validator.env --env ENV=prod --platform linux/amd64 -p 17691:17690 --restart always elixirprotocol/validator
